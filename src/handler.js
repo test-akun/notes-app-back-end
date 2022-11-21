@@ -25,6 +25,7 @@ const addNoteHandler = (request, h) => {
     response.code(201);
     return response;
   }
+
   const response = h.response({
     status: "fail",
     message: "Catatan gagal ditambahkan",
@@ -40,7 +41,33 @@ const getAllNotesHandler = () => ({
   },
 });
 
+const getNoteByIdHandler = (request, h) => {
+  const { id } = request.params;
+
+  const noteById = notes.filter((note) => note.id === id)[0];
+
+  if (noteById !== undefined) {
+    const response = h.response({
+      status: "success",
+      data: {
+        note: noteById,
+      },
+    });
+
+    response.code(200);
+    return response;
+  }
+
+  const response = h.response({
+    status: "fail",
+    message: "Catatan tidak ditemukan",
+  });
+  response.code(404);
+  return response;
+};
+
 module.exports = {
   addNoteHandler,
   getAllNotesHandler,
+  getNoteByIdHandler,
 };
