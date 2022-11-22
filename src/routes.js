@@ -1,3 +1,5 @@
+const Joi = require("joi");
+
 const {
   addNoteHandler,
   getAllNotesHandler,
@@ -12,6 +14,13 @@ const routes = [
     method: "POST",
     path: "/notes",
     handler: addNoteHandler,
+    options: {
+      validate: {
+        payload: Joi.object({
+          title: Joi.string().required(),
+        }),
+      },
+    },
   },
   {
     method: "GET",
